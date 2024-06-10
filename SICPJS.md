@@ -65,6 +65,60 @@ Proses ini disebut [_Percolate values upward_](https://chatgpt.com/share/39c4018
 
 #### Compound Functions
 
+Selain primitive data, operator dan variabel. Ada satu konsep yang juga powerful dalam membuat compound operation dan abstraksi. Yaitu Fungsi deklarasi.
+
+```javascript
+function square(x) {
+  return x * x;
+}
+```
+
+Kode di atas adalah contoh fungsi deklarasi. Kita membungkus ekspresi x \* x kedalam fungsi yang diberi nama square (diabstraksi) dengan paramater x. Paramenter adalah nilai yang akan nantinya akan disubtitusi ke dalam ekspresi di dalam fungsi.
+
+```javascript
+square(4); //16
+```
+
+Proses interpreter menerjemahkan ekspresi fungsi hingga menghasilkan nilai sama dengan operator kombinasi. Pertama evaluasi parameter dari fungsi hingga menghasilkan nilai primitif.
+Masukkan nilai parameter ke ekspresi di body function, lalu evaluasi kemudian return nilainya.
+
+```javascript
+square(2 + 5); // 49
+```
+
+- evaluate 2 + 5 = 7
+- subtitusi lalu evaluate body function: 7 \* 7 = 49
+
+```javascript
+square(square(2)); // 16
+```
+
+- evaluate square(2) = 4
+- subtitusi lalu evaluate body function: 4 \* 4 = 16
+
+#### Subtitusi model
+
+Konsep substitusi sebenarnya hanya menyederhanakan proses. Kompiler sebenarnya membuat variabel di local environment fungsi. Lalu bila fungsi dipanggil dengan argumen, maka argumen akan dibinding kedalam variabel yang tersedia dilingkungan lokal fungsi.
+
+```javascript
+function sumOfSquares(x, y) {
+  return square(x) + square(y);
+}
+
+function f(a) {
+  return sumOfSquares(a + 1, a * 2);
+}
+```
+
+#### Aplicative order vs Normal order
+
+Applicative order adalah proses evaluasi yang dimulai dengan mengevaluasi seluruh argumen sebelum pindah ke ekspresi body functuion. Sedangkan normal order hanya mengevaluasi argumen yang dibutuhkan (tidak semua).
+
+#### conditional Expressions and Predicates
+
+serer
+sdfasdf
+
 ### Fungsi dan proses yang dihasilkannya.
 
 ### Merumuskan abstraksi melalui HOF (Higher Order Function)
