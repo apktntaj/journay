@@ -10,7 +10,8 @@ Program yang kompleks dirakit oleh unit-unit program yang kecil (procedures). In
 - Means of combinations
 - Means of abstraction
 
-**Expressions**
+### Expressions
+
 Ekspresi adalah kode yang menghasilkan value.
 
 Contoh ekspresi dalam bahasa Scheme yang menggunakan _prefix notation_.
@@ -45,7 +46,7 @@ Contoh ekspresi dalam bahasa Go yang menggunakan _infix notation_.
 (3 * ((2 * 4) + (3 + 5)))+((10 - 7) + 6)
 ```
 
-**Naming and Environment**
+### Naming and Environment
 
 Memberikan nama pada sebuah data merupakan salah satu cara yang diberikan bahasa pemrograman untuk mengabstraksi sebuah data. Dengannya kode menjadi lebih mudah dibaca dan memiliki konteks.
 
@@ -78,39 +79,134 @@ func main() {
 
 Setiap kali kita membuat variabel, artinya kita membuat blok memori dan mengasosikannya ke sebuah nama yang sewaktu-waktu bisa kita akses (environment).
 
-**Evaluating Combinations**
+### Evaluating Combinations
+
 ![Flow dari evaluasi sebuah kombinasi](./assets/SICP/evaluating-combinations.png)
 
 <!-- <img src="./assets/SICP/evaluating-combinations.png" alt="Image" width="100" height="100"> -->
 
-**Compound Procedures** adalah cara menggabungkan beberapa operasi gabungan menjadi satu kesatuan unit. Procedure sebenarnya hampir sama dengan function.
+### Compound Procedures/ Function
+
+Adalah cara menggabungkan beberapa operasi gabungan menjadi satu kesatuan unit. Procedure sebenarnya hampir sama dengan function.
 
 ```scheme
 (define (square x) (* x x))
+```
 
+```javascript
+function square(x) {
+  return x * x;
+}
+```
+
+Anatomi function sederhana terdiri dari:
+
+- Nama function
+- Parameter
+- Body function
+
+Pada contoh di atas nama function adalah square. Parameter hanya satu yaitu "x" dan body function yang berisi operasi perkalian "parameter x".
+
+setelah mendeklarasikan function kita bisa memanggil function dengan memasukkan argumen (parameter yang telah masukkan ekspresi/nilai).
+
+```scheme
+(square 21)
+```
+
+```javascript
+square(21);
+```
+
+Kedua fungsi diatas akan menghasilkan nilai 441.
+
+Function adalah cara mengabstraksi yang lebih "kompleks" dibandingkan dengan naming variabel.
+
+Setelah membuat function, kita juga bisa membuat operasi kombinasi menggunakan function.
+
+```scheme
+(+ (square x) (square y))
+```
+
+```javascript
+square(3) + square(4);
+```
+
+atau bahkan membuat function yang berisi komposisi function lainnya.
+
+```scheme
 (define (sum-of-squares x y)
   (+ (square x) (square y)))
 
-(sum-of-squares 3 4) ; 25
+(sum-of-squares 3 4) ; Hasilnya adalah 25
 ```
 
-```go
-package main
-
-import "fmt"
-
-func square(x int) int {
-	return x * x
+```javascript
+function sumOfSquares(x, y) {
+  return square(x) + square(y);
 }
 
-func sumOfSquares(num1, num2 int) int {
-	return square(num1) + square(num2)
-}
-
-func main() {
-
-	fmt.Println(sumOfSquares(3, 4)) // Hasilnya 25
-}
+sumOfSquares(3, 4); // Hasilnya adalah 25
 ```
 
-Lihat bagaimana kita membangun sebuah kode dari fungsi-fungsi (mulai dari unit terkecil).
+Dengan membuat function kita seperti memiliki blok lego yang bisa kita rakit sesuka hati kita
+
+```scheme
+(define (f a)
+  (sum-of-squares (+ a 1) (* a 2)))
+
+(f 5) ; Hasilnya 136
+```
+
+```javascript
+p;
+
+f(5); // Hasilnya adalah 136
+```
+
+### The Subtitution Model for Procedure Application
+
+Sekarang mari kita lihat bagaimana urutan sebuah function di-evaluasi oleh compiler/transpiler.
+
+Sebagai contoh mari gunakan function sebelumnya.
+
+```javascript
+f(5);
+```
+
+Urutannya:
+
+| Urutan | Evaluasi                                           | Aplikasi kode                    |
+| ------ | -------------------------------------------------- | -------------------------------- |
+| 1      | Evaluasi body function f(5)                        | sumOfSquares(a + 1, a \* 2)      |
+| 2      | Substitusi paramater dengan argumen                | sumOfSquares(5 + 1, 5 \* 2)      |
+| 3      | Evaluasi body function sumOfSquares(5 + 1, 5 \* 2) | square (x) + square (x)          |
+| 4      | Substitusi paramater dengan argumen                | square (5 + 1) + square (5 \* 2) |
+| 5      | Evaluasi body function square(6) dan square(10)    | (x \* x) + (x \* x)              |
+| 6      | Substitusi paramater dengan argumen                | (6 \* 6) + (10 \* 10)            |
+
+Hasilnya evaluasi adalah 136.
+
+Proses di atas biasa disebut dengan **substitution model** for function application.
+
+### Applicative Order vs Normal Order
+
+Dalam applicative order, argumen fungsi dievaluasi sebelum fungsi dipanggil. Jadi, dalam konteks kode Anda, berikut adalah urutan evaluasi untuk pemanggilan f(5) dalam applicative order:
+
+- Hitung a + 1 dan a \* 2 (dengan a adalah 5), hasilnya adalah 6 dan 10.
+- Panggil sumOfSquares(6, 10).
+- Dalam sumOfSquares, panggil square(6) dan square(10), hasilnya adalah 36 dan 100.
+- Tambahkan hasil dari square(6) dan square(10) untuk mendapatkan 136.
+- Kembalikan 136 sebagai hasil dari f(5).
+  Normal Order (Lazy Evaluation)
+
+Dalam normal order, ekspresi tidak dievaluasi sampai nilai mereka benar-benar diperlukan. Berikut adalah urutan evaluasi untuk pemanggilan f(5) dalam normal order:
+
+- Panggil sumOfSquares(a + 1, a \* 2) dengan a adalah 5.
+- Dalam sumOfSquares, panggil square(a + 1) dan square(a \* 2).
+- Sekarang, evaluasi a + 1 dan a \* 2 (dengan a adalah 5), hasilnya adalah 6 dan 10.
+- Hitung square(6) dan square(10), hasilnya adalah 36 dan 100.
+- Tambahkan hasil dari square(6) dan square(10) untuk mendapatkan 136.
+- Kembalikan 136 sebagai hasil dari f(5).
+  Perbedaan
+
+Perbedaan utama antara dua urutan ini adalah kapan argumen fungsi dievaluasi. Dalam applicative order, argumen dievaluasi sebelum fungsi dipanggil. Dalam normal order, argumen tidak dievaluasi sampai nilai mereka benar-benar diperlukan. Dalam banyak kasus, hasil akhirnya akan sama, tetapi urutan operasi yang sebenarnya dapat berbeda.
