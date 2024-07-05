@@ -4,7 +4,7 @@
 
 ## The elements of programming
 
-Bahasa pemrograman bisa dianggap sebagai penyambung antara ide manusia sebagai user dan komputer sebagai eksekutor. Ide yang telah ditulis akan menjadi program yang akan dieksekusi oleh komputer.
+Bahasa pemrograman bisa dianggap sebagai penyambung antara ide manusia sebagai "user" dan komputer sebagai "eksekutor". Ide yang telah ditulis akan menjadi program yang akan dieksekusi oleh komputer.
 
 Untuk bisa melakukan, itu bahasa pemrograman juga harus punya tiga aspek penting sebagaimana disinggung oleh John Locke melalui quote di atas.
 
@@ -18,7 +18,7 @@ Kebanyakan bahasa pemrograman memiliki tiga aspek di atas.
 
 Ekspresi adalah kode yang menghasilkan value.
 
-Contoh ekspresi dalam bahasa Scheme yang menggunakan _prefix notation_.
+Di bawah ini adalah contoh ekspresi di bahasa scheme. Ketika dievaluasi, semua baris akan mengembalikan nilalinya masing-masing.
 
 ```scheme
 456 ; Ekspresi sederhana
@@ -36,52 +36,27 @@ Contoh ekspresi dalam bahasa Scheme yang menggunakan _prefix notation_.
       6))
 ```
 
-Contoh ekspresi dalam bahasa Go yang menggunakan _infix notation_.
-
-```go
-456 // Ekspresi sederhana
-
-// Ekspresi kombinasi
-137 + 349
-1000 - 334
-2.7 + 10
-
-(3 * 5) + (10 -6)
-(3 * ((2 * 4) + (3 + 5)))+((10 - 7) + 6)
-```
+Scheme menggunakan penulisan _prefix notation_, perator ditulis diawal sebelum operand. Tidak seperti bahasa dalam keluarga C yang menggunakan _infix notation_.
 
 ### Naming and Environment
 
-Memberikan nama pada sebuah data merupakan salah satu cara yang diberikan bahasa pemrograman untuk mengabstraksi sebuah data. Dengannya kode menjadi lebih mudah dibaca dan memiliki konteks.
+Ekspresi yang mengandung value bisa kita "abstraksi" ke sebuah nama yang mudah diingat atau yang sesuai dengan konteks dari value dan model program kita.
 
 ```scheme
 (define pi 3.14159)
 (define radius 10)
 
-(* pi (* radius radius))
-314.159
 
 (define circumference (* 2 pi radius))
 
 circumference ; 62.8318
 ```
 
-```go
-package main
-
-import "fmt"
-
-func main() {
-	var pi float32 = 3.14159
-	var radius float32 = 10
-
-	var circumference float32 = 2 * pi * radius
-
-	fmt.Println(circumference) // 62.831802
-}
+```scheme
+(* 2 3.14159 10) ; 62.8318
 ```
 
-Setiap kali kita membuat variabel, artinya kita membuat blok memori dan mengasosikannya ke sebuah nama yang sewaktu-waktu bisa kita akses (environment).
+Dua kode diatas menghasilkan nilai yang sama, yaitu 62.8318. Namun, kode pertama lebih memiliki konteks dibanding kode yang kedua karena penamaan. Naming variabel memberi konteks pada kode.
 
 ### Evaluating Combinations
 
