@@ -210,3 +210,37 @@ Dalam normal order, ekspresi tidak dievaluasi sampai nilai mereka benar-benar di
   Perbedaan
 
 Perbedaan utama antara dua urutan ini adalah kapan argumen fungsi dievaluasi. Dalam applicative order, argumen dievaluasi sebelum fungsi dipanggil. Dalam normal order, argumen tidak dievaluasi sampai nilai mereka benar-benar diperlukan. Dalam banyak kasus, hasil akhirnya akan sama, tetapi urutan operasi yang sebenarnya dapat berbeda.
+
+### Square Roots by Newton’s Method
+
+Cara mencari akar kuadrat ala Newton:
+
+- Ambil satu bilangan sembarang lalu kuadratkan.
+- Bila hasil masih belum sesuai, ambil nilai rata-rata nilai y + x/y .Dimana y adalah bilangan tebakan dan x adalah angka yang ingin dicari akar kuadratnya.
+- Ulangi proses di atas hingga mendekati nilai x.
+
+```scheme
+(define (sqrt-iter guess x)
+  (if (good-enough? guess x)
+      guess
+      (sqrt-iter (improve guess x) x)))
+
+(define (improve guess x)
+  (average guess (/ x guess)))
+
+(define (average x y)
+  (/ (+ x y) 2))
+
+(define (good-enough? guess x)
+  (< (abs (- (square guess) x)) 0.001))
+
+(define (sqrt x)
+  (sqrt-iter 1.0 x))
+
+(define (sqrt-iter guess x)
+  (new-if (good-enough? guess x)
+          guess
+          (sqrt-iter (improve guess x) x)))
+
+(sqrt 9) ; 3.00009155413138
+```
