@@ -4,11 +4,15 @@
 
 ## The elements of programming
 
-Program yang kompleks dirakit oleh unit-unit program yang kecil (procedures). Ini bisa dilakukan karena tiap bahasa memiliki setidaknya tiga syarat untuk melakukan itu.
+Bahasa pemrograman bisa dianggap sebagai penyambung antara ide manusia sebagai user dan komputer sebagai eksekutor. Ide yang telah ditulis akan menjadi program yang akan dieksekusi oleh komputer.
+
+Untuk bisa melakukan, itu bahasa pemrograman juga harus punya tiga aspek penting sebagaimana disinggung oleh John Locke melalui quote di atas.
 
 - Primitive expressions
 - Means of combinations
 - Means of abstraction
+
+Kebanyakan bahasa pemrograman memiliki tiga aspek di atas.
 
 ### Expressions
 
