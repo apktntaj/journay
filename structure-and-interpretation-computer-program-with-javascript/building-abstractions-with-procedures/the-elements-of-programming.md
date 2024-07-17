@@ -6,71 +6,77 @@
 
 Bahasa pemrograman bisa dianggap sebagai penyambung antara ide manusia sebagai "user" dan komputer sebagai "eksekutor". Ide yang telah ditulis akan menjadi program yang akan dieksekusi oleh komputer.
 
-Untuk bisa melakukan, itu bahasa pemrograman juga harus punya tiga aspek penting sebagaimana disinggung oleh John Locke melalui quote di atas.
+Untuk bisa melakukan itu, bahasa pemrograman juga harus punya tiga aspek penting sebagaimana disinggung oleh John Locke melalui quote di atas.
 
 - Primitive expressions
 - Means of combinations
 - Means of abstraction
 
-Kebanyakan bahasa pemrograman memiliki tiga aspek di atas.
+Kabar baiknya, kebanyakan bahasa pemrograman sudah memiliki tiga aspek di atas.
 
 ### Expressions
 
 Ekspresi adalah kode yang menghasilkan value.
 
-Di bawah ini adalah contoh ekspresi di bahasa scheme. Ketika dievaluasi, semua baris akan mengembalikan nilalinya masing-masing.
+Di bawah ini adalah contoh ekspresi di JavaScript. Ketika dievaluasi, semua baris akan mengembalikan nilalinya masing-masing.
 
-```scheme
-456 ; Ekspresi sederhana
+```js
+456 // Ekspresi sederhana
 
-; Ekspresi kombinasi
-(+ 137 349)
-(- 1000 334)
-(+ 2.7 10)
+// Ekspresi kombinasi
+137 + 349;
+1000 - 356;
+2.7 + 10;
 
-(+ (* 3 5) (- 10 6))
-(+ (* 3
-      (+ (* 2 4)
-         (+ 3 5)))
-   (+ (- 10 7)
-      6))
+(* 3 * 5) + (- 10 6);
 ```
-
-Scheme menggunakan penulisan _prefix notation_, perator ditulis diawal sebelum operand. Tidak seperti bahasa dalam keluarga C yang menggunakan _infix notation_.
 
 ### Naming and Environment
 
 Ekspresi yang mengandung value bisa kita "abstraksi" ke sebuah nama yang mudah diingat atau yang sesuai dengan konteks dari value dan model program kita.
 
-```scheme
-(define pi 3.14159)
-(define radius 10)
+```js
+const pi = 3.14159;
+const radius = 10;
 
+const circumference = 2 * pi * radius;
 
-(define circumference (* 2 pi radius))
-
-circumference ; 62.8318
+circumference; // Hasilnya adalah 62.8318
 ```
 
-```scheme
-(* 2 3.14159 10) ; 62.8318
+```js
+2 * 3.14159 * 10; // 62.8318
 ```
 
-Dua kode diatas menghasilkan nilai yang sama, yaitu 62.8318. Namun, kode pertama lebih memiliki konteks dibanding kode yang kedua karena penamaan. Naming variabel memberi konteks pada kode.
+Dua kode diatas menghasilkan nilai yang sama, yaitu 62.8318. Namun, kode pertama lebih mudah dibaca karena memiliki konteks dibanding kode yang kedua karena penamaan. Jadi memberi sebuah nama pada value memberi konteks pada kode.
 
 ### Evaluating Combinations
 
-![Flow dari evaluasi sebuah kombinasi](./assets/SICP/evaluating-combinations.png)
-
-<!-- <img src="./assets/SICP/evaluating-combinations.png" alt="Image" width="100" height="100"> -->
-
 ### Compound Procedures/ Function
 
-Adalah cara menggabungkan beberapa operasi gabungan menjadi satu kesatuan unit. Procedure sebenarnya hampir sama dengan function.
+Function adalah kumpulan statement yang menghasilkan sebuah value. Untuk setiap arguman yang sama function juga akan memberikan return value yang sama.
 
-```scheme
-(define (square x) (* x x))
+Procedure adalah urutan langkah untuk menghasilkan sebuah value. Kadang dua istilah ini bertukar seakan-akan keduanya sama padahal berbeda.
+
+Contoh:
+
+```js
+function fiveTimes(num1, num2) {
+  return 5 * num1 * num2;
+}
 ```
+
+```js
+function fiveTimesV2(num1, num2) {
+  return 5 * (num1 * num2);
+}
+```
+
+Dua contoh di atas adalah dua fungsi yang sama tapi procedures yang berbeda. Fungsi yang sama karena keduanya bila dimasukkan argumen yang sama akan mengembalikan hasil yang juga sama.
+
+Tetapi keduanya adalah procedure yang berbeda karena urutan langkah tidak sama.
+
+**Anatomi function**
 
 ```javascript
 function square(x) {
@@ -88,12 +94,8 @@ Pada contoh di atas nama function adalah square. Parameter hanya satu yaitu "x" 
 
 setelah mendeklarasikan function kita bisa memanggil function dengan memasukkan argumen (parameter yang telah masukkan ekspresi/nilai).
 
-```scheme
-(square 21)
-```
-
 ```javascript
-square(21);
+square(21); // Hasilnya adalah 441
 ```
 
 Kedua fungsi diatas akan menghasilkan nilai 441.
@@ -102,24 +104,13 @@ Function adalah cara mengabstraksi yang lebih "kompleks" dibandingkan dengan nam
 
 Setelah membuat function, kita juga bisa membuat operasi kombinasi menggunakan function.
 
-```scheme
-(+ (square x) (square y))
-```
-
-```javascript
+```js
 square(3) + square(4);
 ```
 
 atau bahkan membuat function yang berisi komposisi function lainnya.
 
-```scheme
-(define (sum-of-squares x y)
-  (+ (square x) (square y)))
-
-(sum-of-squares 3 4) ; Hasilnya adalah 25
-```
-
-```javascript
+```js
 function sumOfSquares(x, y) {
   return square(x) + square(y);
 }
@@ -128,19 +119,6 @@ sumOfSquares(3, 4); // Hasilnya adalah 25
 ```
 
 Dengan membuat function kita seperti memiliki blok lego yang bisa kita rakit sesuka hati kita
-
-```scheme
-(define (f a)
-  (sum-of-squares (+ a 1) (* a 2)))
-
-(f 5) ; Hasilnya 136
-```
-
-```javascript
-p;
-
-f(5); // Hasilnya adalah 136
-```
 
 ### The Subtitution Model for Procedure Application
 
@@ -223,3 +201,9 @@ Cara mencari akar kuadrat ala Newton:
 
 (sqrt 9) ; 3.00009155413138
 ```
+
+### Kesimpulan
+
+Sebagaimana manusia merumuskan sebuah gagasan baru dengan cara menggabungkan beberapa gagasan sederhana, lalu membandingkannya seperti kutipan John Locke. Begitu juga yang dilakukan seorang programmer dalam merancang program.
+
+Semua dimulai dari program sederhana kemudian berlanjut menjadi lebih kompleks. Bila program mulai kompleks maka baiknya lakukan abstraksi agar tidak tersesat dalam kompleksitas program kita sendiri.
