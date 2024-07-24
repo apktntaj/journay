@@ -20,32 +20,34 @@ Ekspresi adalah kode yang menghasilkan value.
 
 Di bawah ini adalah contoh ekspresi di JavaScript. Ketika dievaluasi, semua baris akan mengembalikan nilalinya masing-masing.
 
-```js
-456 // Ekspresi sederhana
+```scheme
+456 ; Ekspresi sederhana
 
 // Ekspresi kombinasi
-137 + 349;
-1000 - 356;
-2.7 + 10;
+(+ 137 349)
+(- 1000 356);
+(+ 2.7 10);
 
-(* 3 * 5) + (- 10 6);
+(+ (* 3 5) (- 10 6))
 ```
 
 ### Naming and Environment
 
 Ekspresi yang mengandung value bisa kita "abstraksi" ke sebuah nama yang mudah diingat atau yang sesuai dengan konteks dari value dan model program kita.
 
-```js
-const pi = 3.14159;
-const radius = 10;
+```scheme
+(define pi 3.14159)
+(define radius 10)
 
-const circumference = 2 * pi * radius;
+(* pi (* radius radius)) ; 314.159
 
-circumference; // Hasilnya adalah 62.8318
+(define circumference (* 2 pi radius))
+
+circumference ; Hasilnya adalah 62.8318
 ```
 
-```js
-2 * 3.14159 * 10; // 62.8318
+```scheme
+(* 2 3.14159 10); // 62.8318
 ```
 
 Dua kode diatas menghasilkan nilai yang sama, yaitu 62.8318. Namun, kode pertama lebih mudah dibaca karena memiliki konteks dibanding kode yang kedua karena penamaan. Jadi memberi sebuah nama pada value memberi konteks pada kode.
@@ -60,16 +62,8 @@ Procedure adalah urutan langkah untuk menghasilkan sebuah value. Kadang dua isti
 
 Contoh:
 
-```js
-function fiveTimes(num1, num2) {
-  return 5 * num1 * num2;
-}
-```
-
-```js
-function fiveTimesV2(num1, num2) {
-  return 5 * (num1 * num2);
-}
+```scheme
+(define (square x) (* x x))
 ```
 
 Dua contoh di atas adalah dua fungsi yang sama tapi procedures yang berbeda. Fungsi yang sama karena keduanya bila dimasukkan argumen yang sama akan mengembalikan hasil yang juga sama.
@@ -78,10 +72,8 @@ Tetapi keduanya adalah procedure yang berbeda karena urutan langkah tidak sama.
 
 **Anatomi function**
 
-```javascript
-function square(x) {
-  return x * x;
-}
+```scheme
+(define (square x) (* x x))
 ```
 
 Anatomi function sederhana terdiri dari:
@@ -95,7 +87,7 @@ Pada contoh di atas nama function adalah square. Parameter hanya satu yaitu "x" 
 setelah mendeklarasikan function kita bisa memanggil function dengan memasukkan argumen (parameter yang telah masukkan ekspresi/nilai).
 
 ```javascript
-square(21); // Hasilnya adalah 441
+(square 21); // Hasilnya adalah 441
 ```
 
 Kedua fungsi diatas akan menghasilkan nilai 441.
@@ -104,18 +96,17 @@ Function adalah cara mengabstraksi yang lebih "kompleks" dibandingkan dengan nam
 
 Setelah membuat function, kita juga bisa membuat operasi kombinasi menggunakan function.
 
-```js
-square(3) + square(4);
+```scheme
+(+ (square 3) (square 4)) ; Hasilnya adalah 25
 ```
 
 atau bahkan membuat function yang berisi komposisi function lainnya.
 
-```js
-function sumOfSquares(x, y) {
-  return square(x) + square(y);
-}
+```scheme
+(define (sumOfSquare x y)
+  (+ (square x) (square y)))
 
-sumOfSquares(3, 4); // Hasilnya adalah 25
+(sumOfSquare 3 4) ; Hasilnya adalah 25
 ```
 
 Dengan membuat function kita seperti memiliki blok lego yang bisa kita rakit sesuka hati kita
